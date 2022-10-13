@@ -42,6 +42,10 @@ class CreateUserResponse(BaseModel):
     user_id: int
 
 
+class MultipleUsersResponse(BaseModel):
+    users: list[FullUserProfile]
+
+
 def get_user_info(user_id: int = 0) -> FullUserProfile:
     profile_info = profile_infos[user_id]
 
@@ -73,6 +77,7 @@ def create_user(full_profile_info: FullUserProfile) -> int:
     return new_user_id
 
 
+
 @app.get("/user/me", response_model=FullUserProfile)
 def test_endpoint():
     return get_user_info()
@@ -84,8 +89,14 @@ def get_user_by_id(user_id: int):
     return full_user_profile
 
 
+@app.get("/users", response_model=MultipleUsersResponse):
+def get_all_users_paginated(user_id: int):
+    pass
+
 @app.post("/users", response_model=CreateUserResponse)
 def add_user(full_profile_info: FullUserProfile):
     user_id = create_user(full_profile_info)
     created_user = CreateUserResponse(user_id=user_id)
     return created_user
+
+
