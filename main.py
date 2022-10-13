@@ -44,6 +44,7 @@ class CreateUserResponse(BaseModel):
 
 class MultipleUsersResponse(BaseModel):
     users: list[FullUserProfile]
+    total: int
 
 
 def get_user_info(user_id: int = 0) -> FullUserProfile:
@@ -77,6 +78,21 @@ def create_user(full_profile_info: FullUserProfile) -> int:
     return new_user_id
 
 
+def get_all_users_with_pagination(start: int, limit: int) -> (list[FullUserProfile], int):
+    list_of_users = []
+    keys = list(profile_infos.keys())
+    total = len(keys)
+    for index in range(0, len(keys), 1):
+        if index < start:
+            continue
+        current_key = keys[index]
+        user = get_user_info(current_key)
+        list_of_users.append(user)
+        if len(list_of_users) >= limit:
+            break
+
+    return list_of_users, total
+
 
 @app.get("/user/me", response_model=FullUserProfile)
 def test_endpoint():
@@ -89,14 +105,15 @@ def get_user_by_id(user_id: int):
     return full_user_profile
 
 
-@app.get("/users", response_model=MultipleUsersResponse):
-def get_all_users_paginated(user_id: int):
-    pass
+@app.get("/users", response_model=MultipleUsersResponse)
+def get_all_users_paginated(start: int = 0, limit: int = 20):
+    users, total = get_all_users_with_pagination(start, limit)
+    formatted_users = MultipleUsersResponse(users=users, total=total)
+    return formatted_users
+
 
 @app.post("/users", response_model=CreateUserResponse)
 def add_user(full_profile_info: FullUserProfile):
     user_id = create_user(full_profile_info)
     created_user = CreateUserResponse(user_id=user_id)
     return created_user
-
-
