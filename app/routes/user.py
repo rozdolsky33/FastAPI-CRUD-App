@@ -20,13 +20,13 @@ logging.basicConfig(
 )
 
 
-def create_user_router() -> APIRouter:
+def create_user_router(profile_infos: dict, users_content:dict) -> APIRouter:
     user_router = APIRouter(
         prefix="/users",
         tags=["Users"],
         dependencies=[Depends(rate_limit)]
     )
-    user_service = UserService()
+    user_service = UserService(profile_infos, users_content)
 
     @user_router.get("/{user_id}", response_model=FullUserProfile)
     async def get_user_by_id(user_id: int):

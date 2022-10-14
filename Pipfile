@@ -11,6 +11,8 @@ pydantic = "*"
 
 [dev-packages]
 pytest = "*"
+mypy = "*"
+pytest-asyncio = "*"
 
 [requires]
 python_version = "3.9"
