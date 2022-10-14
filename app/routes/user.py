@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from app.schemas.user import (
     CreateUserResponse,
@@ -6,6 +6,15 @@ from app.schemas.user import (
     MultipleUsersResponse
 )
 from app.services.user import UserService
+
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(
+    format="%(levelname)-2s %(name)s %(asctime)s.%(msecs)03d %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    filename="log.txt",
+)
 
 
 def create_user_router() -> APIRouter:
@@ -25,14 +34,19 @@ def create_user_router() -> APIRouter:
         full_user_profile = await user_service.get_user_info(user_id)
         return full_user_profile
 
-    @user_router.put("/{user_id}")
+    @user_router.put("/{user_id}", status_code=204)
     async def update_user(user_id: int, full_profile_info: FullUserProfile):
         await user_service.create_update_user(full_profile_info, user_id)
         return None
 
-    @user_router.delete("/{user_id}")
+    @user_router.delete("/{user_id}", status_code=204)
     async def remove_user(user_id: int):
-        await user_service.delete_user(user_id)
+        logger.info(f"About to delete {user_id}")
+        try:
+            await user_service.delete_user(user_id)
+        except KeyError:
+            logger.error(f"Invalid user_id {user_id}")
+            raise HTTPException(status_code=404, detail={"msg": f"User doesn't exist", "user_id": user_id})
 
     @user_router.get("/", response_model=MultipleUsersResponse)
     async def get_all_users_paginated(start: int = 0, limit: int = 20):
@@ -40,7 +54,7 @@ def create_user_router() -> APIRouter:
         formatted_users = MultipleUsersResponse(users=users, total=total)
         return formatted_users
 
-    @user_router.post("/", response_model=CreateUserResponse)
+    @user_router.post("/", response_model=CreateUserResponse, status_code=201)
     async def add_user(full_profile_info: FullUserProfile):
         user_id = await user_service.create_update_user(full_profile_info)
         created_user = CreateUserResponse(user_id=user_id)

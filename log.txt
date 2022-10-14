@@ -1,0 +1,69 @@
+INFO:uvicorn.error:Started server process [10952]
+INFO:uvicorn.error:Waiting for application startup.
+INFO:uvicorn.error:Application startup complete.
+ERROR:app.routes.user:Invalid user_id 3
+INFO:uvicorn.error:Shutting down
+INFO:uvicorn.error:Waiting for application shutdown.
+INFO:uvicorn.error:Application shutdown complete.
+INFO:uvicorn.error:Finished server process [10952]
+INFO uvicorn.error 2022-10-14 09:19:42,525 Started server process [11132]
+INFO uvicorn.error 2022-10-14 09:19:42,525 Waiting for application startup.
+INFO uvicorn.error 2022-10-14 09:19:42,526 Application startup complete.
+ERROR app.routes.user 2022-10-14 09:19:46,130 Invalid user_id 3
+INFO uvicorn.error 2022-10-14 09:24:08,281 Shutting down
+INFO uvicorn.error 2022-10-14 09:24:08,381 Waiting for application shutdown.
+INFO uvicorn.error 2022-10-14 09:24:08,382 Application shutdown complete.
+INFO uvicorn.error 2022-10-14 09:24:08,382 Finished server process [11132]
+INFO uvicorn.error 2022-10-14 09:24:08,821 Started server process [11166]
+INFO uvicorn.error 2022-10-14 09:24:08,821 Waiting for application startup.
+INFO uvicorn.error 2022-10-14 09:24:08,822 Application startup complete.
+INFO uvicorn.error 2022-10-14 09:24:49,374 Shutting down
+INFO uvicorn.error 2022-10-14 09:24:49,475 Waiting for application shutdown.
+INFO uvicorn.error 2022-10-14 09:24:49,475 Application shutdown complete.
+INFO uvicorn.error 2022-10-14 09:24:49,475 Finished server process [11166]
+INFO uvicorn.error 2022-10-14 09:24:49,840 Started server process [11188]
+INFO uvicorn.error 2022-10-14 09:24:49,840 Waiting for application startup.
+INFO uvicorn.error 2022-10-14 09:24:49,840 Application startup complete.
+INFO uvicorn.error 2022-10-14 09:25:49,713 Shutting down
+INFO uvicorn.error 2022-10-14 09:25:49,814 Waiting for application shutdown.
+INFO uvicorn.error 2022-10-14 09:25:49,815 Application shutdown complete.
+INFO uvicorn.error 2022-10-14 09:25:49,815 Finished server process [11188]
+INFO uvicorn.error 22-10-14 Started server process [11212]
+INFO uvicorn.error 22-10-14 Waiting for application startup.
+INFO uvicorn.error 22-10-14 Application startup complete.
+INFO uvicorn.error 22-10-14 Shutting down
+INFO uvicorn.error 22-10-14 Waiting for application shutdown.
+INFO uvicorn.error 22-10-14 Application shutdown complete.
+INFO uvicorn.error 22-10-14 Finished server process [11212]
+INFO uvicorn.error 22-10-14 09-26-27 Started server process [11232]
+INFO uvicorn.error 22-10-14 09-26-27 Waiting for application startup.
+INFO uvicorn.error 22-10-14 09-26-27 Application startup complete.
+INFO uvicorn.error 22-10-14 09-26-40 Shutting down
+INFO uvicorn.error 22-10-14 09-26-41 Waiting for application shutdown.
+INFO uvicorn.error 22-10-14 09-26-41 Application shutdown complete.
+INFO uvicorn.error 22-10-14 09-26-41 Finished server process [11232]
+INFO uvicorn.error 22-10-14 09:26:41 Started server process [11248]
+INFO uvicorn.error 22-10-14 09:26:41 Waiting for application startup.
+INFO uvicorn.error 22-10-14 09:26:41 Application startup complete.
+INFO uvicorn.error 22-10-14 09:27:11 Shutting down
+INFO uvicorn.error 22-10-14 09:27:11 Waiting for application shutdown.
+INFO uvicorn.error 22-10-14 09:27:11 Application shutdown complete.
+INFO uvicorn.error 22-10-14 09:27:11 Finished server process [11248]
+INFO uvicorn.error 22-10-14 09:27:49.177 Started server process [11291]
+INFO uvicorn.error 22-10-14 09:27:49.177 Waiting for application startup.
+INFO uvicorn.error 22-10-14 09:27:49.177 Application startup complete.
+INFO uvicorn.error 22-10-14 09:28:15.629 Shutting down
+INFO uvicorn.error 22-10-14 09:28:15.730 Waiting for application shutdown.
+INFO uvicorn.error 22-10-14 09:28:15.731 Application shutdown complete.
+INFO uvicorn.error 22-10-14 09:28:15.731 Finished server process [11291]
+INFO uvicorn.error 2022-10-14 09:28:16.076 Started server process [11305]
+INFO uvicorn.error 2022-10-14 09:28:16.076 Waiting for application startup.
+INFO uvicorn.error 2022-10-14 09:28:16.077 Application startup complete.
+ERROR app.routes.user 2022-10-14 09:28:37.300 Invalid user_id 3
+INFO uvicorn.error 2022-10-14 09:31:15.143 Shutting down
+INFO uvicorn.error 2022-10-14 09:31:15.244 Waiting for application shutdown.
+INFO uvicorn.error 2022-10-14 09:31:15.245 Application shutdown complete.
+INFO uvicorn.error 2022-10-14 09:31:15.245 Finished server process [11305]
+INFO uvicorn.error 2022-10-14 09:31:15.748 Started server process [11372]
+INFO uvicorn.error 2022-10-14 09:31:15.748 Waiting for application startup.
+INFO uvicorn.error 2022-10-14 09:31:15.749 Application startup complete.
