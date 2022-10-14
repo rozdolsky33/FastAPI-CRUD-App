@@ -1,4 +1,6 @@
-from fastapi import APIRouter, HTTPException
+import time
+
+from fastapi import APIRouter, HTTPException, Response, Depends
 
 from app.schemas.user import (
     CreateUserResponse,
@@ -6,6 +8,7 @@ from app.schemas.user import (
     MultipleUsersResponse
 )
 from app.services.user import UserService
+from app.dependencies import rate_limit
 
 import logging
 
@@ -21,6 +24,7 @@ def create_user_router() -> APIRouter:
     user_router = APIRouter(
         prefix="/users",
         tags=["Users"],
+        dependencies=[Depends(rate_limit)]
     )
     user_service = UserService()
 
@@ -28,6 +32,7 @@ def create_user_router() -> APIRouter:
     async def get_user_by_id(user_id: int):
         """
         Endpoint for retrieving a fullUserProfile by the users unique integer id
+        :param response:
         :param user_id: int - unique monotonically increasing integer id
         :return: FullUserProfile
         """
@@ -36,17 +41,18 @@ def create_user_router() -> APIRouter:
 
     @user_router.put("/{user_id}", status_code=204)
     async def update_user(user_id: int, full_profile_info: FullUserProfile):
+
         await user_service.create_update_user(full_profile_info, user_id)
         return None
 
     @user_router.delete("/{user_id}", status_code=204)
     async def remove_user(user_id: int):
         logger.info(f"About to delete {user_id}")
-        try:
-            await user_service.delete_user(user_id)
-        except KeyError:
-            logger.error(f"Invalid user_id {user_id}")
-            raise HTTPException(status_code=404, detail={"msg": f"User doesn't exist", "user_id": user_id})
+        # try:
+        await user_service.delete_user(user_id)
+        # except KeyError:
+        #     logger.error(f"Invalid user_id {user_id}")
+        #     raise HTTPException(status_code=404, detail={"msg": f"User doesn't exist", "user_id": user_id})
 
     @user_router.get("/", response_model=MultipleUsersResponse)
     async def get_all_users_paginated(start: int = 0, limit: int = 20):
