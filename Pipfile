@@ -8,12 +8,15 @@ fastapi = "*"
 uvicorn = "*"
 mypy = "*"
 pydantic = "*"
+aiohttp = "*"
 
 [dev-packages]
 pytest = "*"
 mypy = "*"
 pytest-asyncio = "*"
 requests = "*"
+aiohttp = "*"
+responses = "*"
 
 [requires]
 python_version = "3.9"
