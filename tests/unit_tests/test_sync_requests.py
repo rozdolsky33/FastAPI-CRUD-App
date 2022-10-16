@@ -8,6 +8,7 @@ def test_get_and_parse_users_works_properly():
     endpoint_prefix = "/users/"
     user_id = 0
 
+#register request to mock
     responses.add(
         responses.GET,
         f"{base_url}{endpoint_prefix}{user_id}",

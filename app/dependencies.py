@@ -22,4 +22,4 @@ def rate_limit(response: Response) -> Response:
 
     count += 1
     response.headers["X-app-rate-limit"] = f"{count}:{limit}"
-    return Response
+    return response
