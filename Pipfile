@@ -13,6 +13,7 @@ pydantic = "*"
 pytest = "*"
 mypy = "*"
 pytest-asyncio = "*"
+requests = "*"
 
 [requires]
 python_version = "3.9"
