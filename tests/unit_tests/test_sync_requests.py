@@ -15,6 +15,13 @@ def test_get_and_parse_users_works_properly():
         status=200,
         headers={}
     )
+    responses.add(
+        responses.POST,
+        f"{base_url}{endpoint_prefix}{user_id}",
+        json={"user": user_id},
+        status=200,
+        headers={}
+    )
 
     response = get_and_parse_user(base_url, endpoint_prefix, user_id)
 
