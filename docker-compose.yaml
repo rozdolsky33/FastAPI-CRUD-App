@@ -28,3 +28,6 @@ services:
       - .env-local
     volumes:
       - pgdb:/var/lib/postgresql/data
+
+volumes:
+  pgdb:
