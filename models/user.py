@@ -10,7 +10,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     created_at = Column(TIMESTAMP, default=datetime.datetime.utcnow)
-    username = Column(String)
+    username = Column(String, nullable=False)
     short_description = Column(String)
     long_bio = Column(String)
 

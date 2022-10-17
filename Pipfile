@@ -9,7 +9,6 @@ uvicorn = "*"
 mypy = "*"
 pydantic = "*"
 aiohttp = "*"
-sqlalchemy = "*"
 psycopg2-binary = "*"
 
 [dev-packages]
@@ -22,6 +21,8 @@ responses = "*"
 aioresponses = "*"
 pytest-cov = "*"
 alembic = "*"
+sqlalchemy = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.9"
