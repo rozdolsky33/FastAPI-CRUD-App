@@ -5,7 +5,6 @@ from app.exception_handlers import add_exception_handlers
 
 
 def create_application() -> FastAPI:
-
     profile_infos, users_content = crate_profile_infos_and_users_content()
     user_router = create_user_router(profile_infos, users_content)
 
@@ -33,4 +32,7 @@ def crate_profile_infos_and_users_content():
     return profile_infos, users_content
 
 
+from models import recreate_postgres_tables
+
+recreate_postgres_tables()
 app = create_application()
