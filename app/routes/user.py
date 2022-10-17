@@ -47,7 +47,7 @@ def create_user_router(profile_infos: dict, users_content:dict) -> APIRouter:
 
     @user_router.delete("/{user_id}", status_code=204)
     async def remove_user(user_id: int):
-        logger.info(f"About to delete {user_id}")
+        #logger.info(f"About to delete {user_id}")
         # try:
         await user_service.delete_user(user_id)
         # except KeyError:
