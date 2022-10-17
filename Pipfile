@@ -10,6 +10,7 @@ mypy = "*"
 pydantic = "*"
 aiohttp = "*"
 psycopg2-binary = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 pytest = "*"
@@ -22,7 +23,6 @@ aioresponses = "*"
 pytest-cov = "*"
 alembic = "*"
 sqlalchemy = "*"
-psycopg2-binary = "*"
 
 [requires]
 python_version = "3.9"
