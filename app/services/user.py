@@ -6,43 +6,41 @@ from app.schemas.user import (
 )
 
 from app.exceptions import UserNotFound
+from app.clients.db import DatabaseClient
+from sqlalchemy import select
+from sqlalchemy.sql import func
+from sqlalchemy.sql.expression import Select
 
 
 class UserService:
 
-    def __init__(self, profile_infos: dict, users_content: dict):
-        self.profile_infos = profile_infos
-        self.users_content = users_content
+    def __init__(self, database_client: DatabaseClient):
+        self.database_client = database_client
 
-    async def get_all_users_with_pagination(self, start: int, limit: int) -> Tuple[list[FullUserProfile], int]:
-        list_of_users = []
-        keys = list(self.profile_infos.keys())
-        total = len(keys)
-        for index in range(0, len(keys), 1):
-            if index < start:
-                continue
-            current_key = keys[index]
-            user = await self.get_user_info(current_key)
-            list_of_users.append(user)
-            if len(list_of_users) >= limit:
-                break
+    async def get_all_users_with_pagination(self, offset: int, limit: int) -> Tuple[list[FullUserProfile], int]:
+        query = self._get_user_info_query()
+        users = self.database_client.get_paginated(query, limit, offset)
 
-        return list_of_users, total
+        total_query = select(func.count(self.database_client.user.c.id).label("total"))
+        total = self.database_client.get_first(total_query)[0]
+        user_infos = []
+        for user in users:
+            user_info = dict(zip(user.keys(), user))
+            full_user_profile = FullUserProfile(**user_info)
+            user_infos.append(full_user_profile)
 
-    async def get_user_info(self, user_id: int = 0) -> FullUserProfile:
-        if user_id not in self.profile_infos:
-            raise UserNotFound(user_id=user_id)
-        profile_info = self.profile_infos[user_id]
-        user_content = self.users_content[user_id]
+        return user_infos, total
 
-        user = User(**user_content)
+    async def get_user_info(self, users_id: int = 0) -> FullUserProfile:
+        query = await self._get_user_info_query(users_id)
+        users = self.database_client.get_first(query)
 
-        full_user_profile = {
-            **profile_info,
-            **user.dict()
-        }
+        if not users:
+            raise UserNotFound(user_id=users_id)
 
-        return FullUserProfile(**full_user_profile)
+        users_info = dict(zip(users.keys(), users))
+
+        return FullUserProfile(**users_info)
 
     async def create_update_user(self, full_profile_info: FullUserProfile, user_id: Optional[int] = None) -> int:
         """
@@ -67,9 +65,39 @@ class UserService:
 
         return user_id
 
-
     async def delete_user(self, user_id: int) -> None:
         if user_id not in self.profile_infos:
             raise UserNotFound(user_id=user_id)
         del self.profile_infos[user_id]
         del self.users_content[user_id]
+
+    async def _get_user_info_query(self, users_id: Optional[int] = None) -> Select:
+        liked_posts_query = (
+            select(
+                self.database_client.liked_post.c.users_id,
+                func.array_agg(self.database_client.liked_post.c.post_id).label("liked_posts")
+
+            )
+            .group_by(self.database_client.liked_post.c.users_id)
+        )
+        if users_id:
+            liked_posts_query = liked_posts_query.where(self.database_client.liked_post.c.users_id == users_id)
+        liked_posts_query = liked_posts_query.cte("liked_posts_query")
+
+        query = (
+            select(
+                self.database_client.users.c.short_description,
+                self.database_client.users.c.long_bio,
+                self.database_client.users.c.username.label("name"),
+                liked_posts_query.c.liked_posts
+            )
+            .join(
+                liked_posts_query,
+                liked_posts_query.c.users_id == self.database_client.users.c.id,
+                isouter=True
+            )
+        )
+        if users_id:
+            query = query.where(self.database_client.users.c.id == users_id)
+
+        return query
